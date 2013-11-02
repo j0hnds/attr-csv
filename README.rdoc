@@ -1,6 +1,49 @@
 = attr-csv
 
-Description goes here.
+This gem allows you to define CSV-style attributes for your ActiveRecord models.
+This is similar to serializing an ActiveRecord attribute except that it is
+stored in the database column as comma-separated-values rather than a JSON or
+YAML.
+
+The advantage of using the CSV format in the database is that you can use the
+FIND_IN_SET() function (MySQL) to perform queries that can filter based on 
+a particular value found in the set. If you don't use MySQL, it can still be 
+used as just another way to serialize an array into a database column. It sure
+prints better in a select result set.
+
+If these reasons aren't compelling enough for you, don't use it. 
+
+Here is an example usage:
+
+   class MyCsvModel < ActiveRecord::Base
+     attr_csv :multivalue
+   end
+
+   # The schema
+   CREATE TABLE my_csv_models (
+     id INTEGER PRIMARY KEY,
+     multivalue_csv VARCHAR(255)
+   )
+
+   # Use it
+   m = MyCsvModel.create! multivalue: [ 'a', 'b', 'c' ]
+   
+   # Query for a value in the set...
+   ms = MyCsvModel.where "FIND_IN_SET('a', multivalue_csv) > 0"
+
+   ms.first.multivalue.inspect
+
+   # => [ 'a', 'b', 'c' ]
+
+The default behavior is to assume that the database column will be named
+the same as the attribute with an appended '_csv'.
+
+If the CSV attribute is set to an empty array (or nil), the database column
+will be set to nil.
+
+You can actually use the 'attr_csv' function in a Plain Old Ruby Object, but
+I have yet to figure out the use for it (unless it was to be used with a
+different ORM - I'm not that adventurous).
 
 == Contributing to attr-csv
  

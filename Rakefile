@@ -17,10 +17,10 @@ Jeweler::Tasks.new do |gem|
   gem.name = "attr-csv"
   gem.homepage = "http://github.com/j0hnds/attr-csv"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
-  gem.email = "dave.sieh@providigm.com"
-  gem.authors = ["Dave"]
+  gem.summary = %Q{Provides CSV-style attributes for ActiveRecord models}
+  gem.description = %Q{Allows you to define CSV-style attributes for your ActiveRecord models}
+  gem.email = "j0hnds@gmail.com"
+  gem.authors = ["Dave Sieh"]
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
